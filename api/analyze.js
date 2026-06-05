@@ -1,4 +1,4 @@
-export const config = { maxDuration: 30 };
+export const config = { maxDuration: 60 };
 
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -68,7 +68,7 @@ Retorne SOMENTE JSON válido sem markdown:
       }],
       generationConfig: {
         temperature: 0.1,
-        maxOutputTokens: 1024
+        maxOutputTokens: 2048
       }
     };
 
