@@ -80,7 +80,7 @@ Retorne SOMENTE JSON válido sem markdown:
 
     if (!response.ok) {
       const err = await response.text();
-      return res.status(500).json({ error: 'Gemini API error', detail: err });
+      return res.status(500).json({ error: 'Gemini API error', detail: err, status: response.status });
     }
 
     const data = await response.json();
