@@ -181,7 +181,7 @@ async function runAnalysis(img) {
   } catch(e) {
     clearInterval(iv);
     document.getElementById('loading').style.display='none';
-    console.error(e); showError('Erro ao processar. Tente outra foto de frente com boa iluminação.');
+    console.error(e); showError('Erro: ' + e.message + ' | ' + e.stack);
   }
 }
 
