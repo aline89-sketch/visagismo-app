@@ -1,0 +1,6 @@
+{
+  "name": "visagismo-app",
+  "version": "1.0.0",
+  "description": "Identificador de formato de rosto por visagismo",
+  "engines": { "node": ">=18" }
+}
