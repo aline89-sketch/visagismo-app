@@ -171,7 +171,7 @@ async function runAnalysis(img) {
 
     if(!apiResp.ok) {
       const err=await apiResp.json();
-      showError('Erro na análise: '+(err.error||'tente novamente')); return;
+      showError('Erro: ' + JSON.stringify(err)); return;
     }
 
     const aiResult = await apiResp.json();
