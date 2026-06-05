@@ -85,8 +85,10 @@ Retorne SOMENTE JSON válido sem markdown:
 
     const data = await response.json();
     const raw = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
-    const clean = raw.replace(/```json|```/g, '').trim();
-    const result = JSON.parse(clean);
+// Remove markdown, espaços e extrai apenas o JSON
+const jsonMatch = raw.match(/\{[\s\S]*\}/);
+if (!jsonMatch) return res.status(500).json({ error: 'No JSON in response', raw });
+const result = JSON.parse(jsonMatch[0]);
     return res.status(200).json(result);
 
   } catch(e) {
