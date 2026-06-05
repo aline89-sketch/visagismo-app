@@ -53,8 +53,7 @@ Retorne SOMENTE JSON válido sem markdown:
   "label": "Nome em português",
   "confianca": "alta|media|baixa",
   "regiao_dominante": "superior|macas|inferior|equilibrado",
-  "justificativa": "1 frase curta explicando a classificação",
-"metricas_decisivas": ["metrica1", "metrica2"]
+  "justificativa": "1 frase curta"
 }`;
 
     const apiKey = process.env.GEMINI_API_KEY;
