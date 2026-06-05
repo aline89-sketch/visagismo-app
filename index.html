@@ -375,9 +375,7 @@ function renderResult(ai,m){
   ].map(({l,v,s})=>`<div class="mc"><div class="ml">${l}</div><div class="mv">${v}</div><div class="ms">${s}</div></div>`).join('');
 
   document.getElementById('rJustif').textContent=ai.justificativa||'—';
-  if(ai.metricas_decisivas&&ai.metricas_decisivas.length){
-    document.getElementById('rDecisive').innerHTML='<strong>Métricas decisivas:</strong> '+
-      ai.metricas_decisivas.map(m=>`<span>${m}</span>`).join('');
+  document.getElementById('rDecisive').innerHTML='';
   }
 
   document.getElementById('resultBox').style.display='block';
