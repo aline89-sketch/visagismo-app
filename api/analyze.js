@@ -68,7 +68,7 @@ Retorne SOMENTE JSON válido sem markdown:
       }],
       generationConfig: {
         temperature: 0.1,
-        maxOutputTokens: 600
+        maxOutputTokens: 1024
       }
     };
 
@@ -86,7 +86,8 @@ Retorne SOMENTE JSON válido sem markdown:
     const data = await response.json();
     const raw = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
 // Remove markdown, espaços e extrai apenas o JSON
-const jsonMatch = raw.match(/\{[\s\S]*\}/);
+const clean = raw.replace(/```json|```/g, '').trim();
+const jsonMatch = clean.match(/\{[\s\S]*\}/);
 if (!jsonMatch) return res.status(500).json({ error: 'No JSON in response', raw });
 const result = JSON.parse(jsonMatch[0]);
     return res.status(200).json(result);
