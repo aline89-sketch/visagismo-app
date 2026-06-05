@@ -46,14 +46,15 @@ MÉTRICAS MEDIDAS (normalizadas pela largura máxima):
 - Afunilamento testa→mandíbula: ${pct(metrics.taperForeJaw)}
 - Afunilamento mandíbula→queixo: ${pct(metrics.taperJawChin)}
 
+Seja MUITO conciso. A justificativa deve ter no máximo 100 caracteres.
 Retorne SOMENTE JSON válido sem markdown:
 {
   "formato": "nome_em_snake_case",
   "label": "Nome em português",
   "confianca": "alta|media|baixa",
   "regiao_dominante": "superior|macas|inferior|equilibrado",
-  "justificativa": "2-3 frases explicando a classificação com base nas métricas e no contorno visual",
-  "metricas_decisivas": ["métrica 1", "métrica 2"]
+  "justificativa": "1 frase curta explicando a classificação",
+"metricas_decisivas": ["metrica1", "metrica2"]
 }`;
 
     const apiKey = process.env.GEMINI_API_KEY;
