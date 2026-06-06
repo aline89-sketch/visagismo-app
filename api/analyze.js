@@ -46,7 +46,10 @@ Legenda perfil: al=alongamento an=angularidade ps=predominancia_superior pi=pred
   responseMimeType: "application/json"
 }
     };
-
+    
+console.log('BODY ENVIADO:');
+console.log(JSON.stringify(body, null, 2));
+    
     const response = await fetch(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
