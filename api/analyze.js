@@ -32,7 +32,7 @@ Legenda scores: ov=oval re=redondo qu=quadrado ob=oblongo co=coracao ti=triangul
 Legenda perfil: al=alongamento an=angularidade ps=predominancia_superior pi=predominancia_inferior dm=destaque_macas aq=afunilamento_queixo`;
 
     const apiKey = process.env.GEMINI_API_KEY;
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
 
     const body = {
       contents: [{
