@@ -19,26 +19,45 @@ body{font-family:system-ui,sans-serif;background:#f5f5f5;min-height:100vh;displa
 .canvas-wrap{display:none;margin:1rem 0;border-radius:10px;overflow:hidden;border:1px solid #e0e0e0}
 canvas{display:block;width:100%}
 .result{display:none;margin-bottom:1rem}
-.rbadge{font-size:24px;font-weight:700;margin-bottom:.3rem}
-.rgroup{display:inline-block;font-size:11px;padding:3px 10px;border-radius:6px;font-weight:600;margin-bottom:.75rem}
-.rconf{font-size:12px;color:#888;margin-left:8px}
-.rdesc{font-size:13px;color:#444;line-height:1.6;background:#f8f8f8;border-radius:10px;padding:.85rem 1rem;margin-bottom:.85rem}
-.sec{font-size:11px;color:#888;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.5rem;font-weight:600}
-.regions{margin-bottom:.85rem}
-.reg-row{display:flex;align-items:center;gap:8px;margin-bottom:6px}
-.reg-label{font-size:12px;width:130px;flex-shrink:0;font-weight:500}
-.reg-bar-bg{flex:1;background:#eee;border-radius:4px;height:8px;overflow:hidden}
+.sec{font-size:11px;color:#888;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.6rem;font-weight:600;margin-top:1rem}
+
+/* Top 3 formatos */
+.top3{display:flex;flex-direction:column;gap:8px;margin-bottom:1rem}
+.fmt-card{border-radius:10px;padding:.85rem 1rem;border:2px solid transparent}
+.fmt-card.first{border-color:currentColor}
+.fmt-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:.4rem}
+.fmt-name{font-size:16px;font-weight:700}
+.fmt-score{font-size:13px;font-weight:600;opacity:.8}
+.fmt-desc{font-size:12px;opacity:.75;line-height:1.5;margin-bottom:.5rem}
+.fmt-bar-bg{background:rgba(0,0,0,0.08);border-radius:4px;height:6px;overflow:hidden}
+.fmt-bar{height:100%;border-radius:4px;background:currentColor;opacity:.7}
+
+/* Perfil facial */
+.profile-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1rem}
+.prof-item{background:#f8f8f8;border-radius:10px;padding:.75rem .9rem}
+.prof-label{font-size:11px;color:#888;text-transform:uppercase;letter-spacing:.04em;margin-bottom:.4rem}
+.prof-bar-wrap{display:flex;align-items:center;gap:8px}
+.prof-bar-bg{flex:1;background:#e0e0e0;border-radius:4px;height:8px;overflow:hidden}
+.prof-bar-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,#4CAF50,#FF9800)}
+.prof-val{font-size:12px;font-weight:600;color:#333;width:30px;text-align:right}
+.prof-desc{font-size:11px;color:#888;margin-top:3px}
+
+/* Recomendações */
+.rec-section{background:#f8f8f8;border-radius:12px;padding:1rem 1.1rem;margin-bottom:.75rem}
+.rec-title{font-size:13px;font-weight:600;color:#333;margin-bottom:.5rem}
+.rec-items{display:flex;flex-wrap:wrap;gap:6px}
+.rec-tag{font-size:12px;padding:4px 10px;border-radius:6px;background:#fff;border:1px solid #ddd;color:#444}
+.rec-tag.highlight{background:#111;color:#fff;border-color:#111}
+
+/* Regiões */
+.regions{margin-bottom:.75rem}
+.reg-row{display:flex;align-items:center;gap:8px;margin-bottom:5px}
+.reg-label{font-size:12px;width:110px;flex-shrink:0;font-weight:500}
+.reg-bar-bg{flex:1;background:#eee;border-radius:4px;height:7px;overflow:hidden}
 .reg-bar{height:100%;border-radius:4px}
 .reg-val{font-size:11px;color:#888;width:36px;text-align:right;flex-shrink:0}
-.dom-mark{font-size:9px;font-weight:700;color:#fff;padding:1px 5px;border-radius:4px;margin-left:4px;vertical-align:middle}
-.metrics{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:.85rem}
-.mc{background:#f8f8f8;border-radius:8px;padding:.6rem .85rem}
-.mc .ml{font-size:11px;color:#888;text-transform:uppercase;letter-spacing:.04em;margin-bottom:2px}
-.mc .mv{font-size:14px;font-weight:600;color:#111}
-.mc .ms{font-size:11px;color:#666}
-.justif{background:#f0f0f0;border-radius:8px;padding:.75rem 1rem;font-size:13px;color:#444;line-height:1.6;border-left:3px solid #ccc;margin-bottom:.75rem}
-.decisive{font-size:12px;color:#666;margin-top:.5rem}
-.decisive span{display:inline-block;background:#e8e8e8;border-radius:5px;padding:2px 8px;margin:2px;font-size:11px}
+.dom-mark{font-size:9px;font-weight:700;color:#fff;padding:1px 5px;border-radius:4px;margin-left:3px}
+
 .warn{background:#fff8e1;border:1px solid #ffe082;border-radius:8px;padding:.7rem 1rem;font-size:13px;color:#7a5a00;margin:.5rem 0;display:none}
 .err{background:#fff0f0;border-radius:8px;padding:.75rem 1rem;font-size:13px;color:#c00;margin:.5rem 0;display:none}
 .init{font-size:13px;color:#555;text-align:center;padding:.75rem;background:#f5f5f5;border-radius:8px;margin-bottom:1rem}
@@ -54,7 +73,7 @@ canvas{display:block;width:100%}
 <body>
 <div class="wrap">
   <div class="title">Identificador de Formato de Rosto</div>
-  <div class="sub">MediaPipe + Gemini Vision — análise por visagismo</div>
+  <div class="sub">MediaPipe + Gemini Vision — perfil facial por visagismo</div>
   <div class="tip">💡 Foto de frente, boa iluminação, cabelo completamente para trás e cabeça reta.</div>
   <div class="init" id="initMsg">⏳ Carregando detector facial...</div>
   <div class="ubox" id="ubox" style="display:none">
@@ -64,23 +83,22 @@ canvas{display:block;width:100%}
   </div>
   <input type="file" id="fi" accept="image/*">
   <div class="warn" id="warnBox">⚠️ O rosto está pequeno — aproxime mais a câmera para melhor precisão.</div>
-  <div class="err"  id="errBox"></div>
+  <div class="err" id="errBox"></div>
   <div class="loading" id="loading"><div class="spin"></div><div class="lmsg" id="lmsg">Detectando pontos faciais...</div></div>
   <div class="canvas-wrap" id="canvasWrap"><canvas id="cv"></canvas></div>
+
   <div class="result" id="resultBox">
-    <div class="rbadge" id="rBadge"></div>
-    <div>
-      <span class="rgroup" id="rGroup"></span>
-      <span class="rconf"  id="rConf"></span>
-    </div>
-    <div class="rdesc" id="rDesc"></div>
-    <div class="sec">Perfil de larguras por região</div>
+    <div class="sec">Perfil de larguras</div>
     <div class="regions" id="rRegions"></div>
-    <div class="sec">Métricas de forma</div>
-    <div class="metrics" id="rMetrics"></div>
-    <div class="sec" style="margin-top:.75rem">Análise da IA</div>
-    <div class="justif"  id="rJustif"></div>
-    <div class="decisive" id="rDecisive"></div>
+
+    <div class="sec">Formatos mais próximos</div>
+    <div class="top3" id="rTop3"></div>
+
+    <div class="sec">Perfil facial</div>
+    <div class="profile-grid" id="rProfile"></div>
+
+    <div class="sec">Recomendações de armação</div>
+    <div id="rRec"></div>
   </div>
   <div class="brow" id="brow" style="display:none">
     <button class="btn" id="btnNew">← Nova foto</button>
@@ -94,201 +112,241 @@ import { FaceLandmarker, FilesetResolver }
 const OVAL_IDX=[10,338,297,332,284,251,389,356,454,323,361,288,397,365,379,378,400,377,152,148,176,149,150,136,172,58,132,93,234,127,162,21,54,103,67,109];
 
 const SHAPES = {
-  oval:         {label:'Oval',                group:'Equilibrado',        gc:'#e3f2fd',stroke:'#2288ee',fill:'rgba(34,136,238,0.18)', desc:'Proporções equilibradas — testa levemente mais larga que o queixo, maçãs suavemente arredondadas. O formato mais versátil.'},
-  redondo:      {label:'Redondo',             group:'Maçãs dominantes',   gc:'#fce4ec',stroke:'#e05c00',fill:'rgba(224,92,0,0.18)',   desc:'Largura e comprimento próximos, bochechas cheias e mandíbula com curva suave. Armações angulares criam contraste e alongam.'},
-  quadrado:     {label:'Quadrado',            group:'Equilibrado',        gc:'#e8f5e9',stroke:'#22aa55',fill:'rgba(34,170,85,0.18)',  desc:'Larguras similares em todas as regiões, mandíbula angular e queixo curto e reto. Armações redondas e ovais suavizam os ângulos.'},
-  oblongo:      {label:'Oblongo',             group:'Equilibrado',        gc:'#ede7f6',stroke:'#0066cc',fill:'rgba(0,102,204,0.18)',  desc:'Rosto bem mais comprido que largo, com lados suaves e quase paralelos. Armações largas e redondas adicionam largura visual.'},
-  coracao:      {label:'Coração',             group:'Superior dominante', gc:'#ffebf1',stroke:'#cc2266',fill:'rgba(204,34,102,0.18)', desc:'Testa e maçãs largas com queixo fino e pontudo. Armações aviador e leves na parte superior equilibram.'},
-  triangulo_inv:{label:'Triângulo Invertido', group:'Superior dominante', gc:'#fff3e0',stroke:'#cc7700',fill:'rgba(204,119,0,0.18)',  desc:'Testa e têmporas mais largas, afunilando progressivamente até um queixo arredondado. Armações cat-eye adicionam ênfase ao topo.'},
-  diamante:     {label:'Diamante',            group:'Maçãs dominantes',   gc:'#fffde7',stroke:'#aa8800',fill:'rgba(170,136,0,0.18)',  desc:'Maçãs muito proeminentes, testa E mandíbula visivelmente estreitas. Armações ovais e cat-eye suave valorizam.'},
-  triangular:   {label:'Triangular',          group:'Inferior dominante', gc:'#e8f5e9',stroke:'#338833',fill:'rgba(51,136,51,0.18)',  desc:'Mandíbula mais larga que a testa, rosto alarga para baixo. Armações cat-eye e detalhes no topo adicionam largura superior.'},
+  oval:         {label:'Oval',                stroke:'#2288ee',fill:'rgba(34,136,238,0.18)',  desc:'Proporções equilibradas, maçãs levemente dominantes, curvas suaves.'},
+  redondo:      {label:'Redondo',             stroke:'#e05c00',fill:'rgba(224,92,0,0.18)',    desc:'Largura próxima à altura, bochechas cheias, mandíbula curva.'},
+  quadrado:     {label:'Quadrado',            stroke:'#22aa55',fill:'rgba(34,170,85,0.18)',   desc:'Larguras similares em todas as regiões, mandíbula angular.'},
+  oblongo:      {label:'Oblongo',             stroke:'#0066cc',fill:'rgba(0,102,204,0.18)',   desc:'Rosto comprido, lados suaves e quase paralelos.'},
+  coracao:      {label:'Coração',             stroke:'#cc2266',fill:'rgba(204,34,102,0.18)',  desc:'Testa e maçãs largas, queixo fino e pontudo.'},
+  triangulo_inv:{label:'Triângulo Invertido', stroke:'#cc7700',fill:'rgba(204,119,0,0.18)',   desc:'Testa larga afunilando progressivamente, queixo arredondado.'},
+  diamante:     {label:'Diamante',            stroke:'#aa8800',fill:'rgba(170,136,0,0.18)',   desc:'Maçãs muito proeminentes, testa e mandíbula estreitas.'},
+  triangular:   {label:'Triangular',          stroke:'#338833',fill:'rgba(51,136,51,0.18)',   desc:'Mandíbula mais larga que a testa, rosto alarga para baixo.'},
 };
+
+// Recomendações baseadas em características contínuas
+function buildRecommendations(perfil, top3) {
+  const recs = { formatos: [], material: [], evitar: [], tendencias: [] };
+  const { alongamento, angularidade, predominancia_superior, predominancia_inferior, destaque_macas, afunilamento_queixo } = perfil;
+  const winner = top3[0].key;
+
+  // Formatos de armação baseados nas características contínuas
+  if (angularidade > 60) {
+    recs.formatos.push({tag:'Redondo', highlight:true});
+    recs.formatos.push({tag:'Oval', highlight:false});
+  } else if (angularidade < 35) {
+    recs.formatos.push({tag:'Retangular', highlight:true});
+    recs.formatos.push({tag:'Quadrado', highlight:false});
+  } else {
+    recs.formatos.push({tag:'Oval', highlight:true});
+    recs.formatos.push({tag:'Retangular', highlight:false});
+  }
+
+  if (predominancia_superior > 55) {
+    recs.formatos.push({tag:'Cat-eye', highlight:false});
+    recs.formatos.push({tag:'Aviador', highlight:false});
+  }
+  if (predominancia_inferior > 55) {
+    recs.formatos.push({tag:'Cat-eye', highlight:true});
+    recs.formatos.push({tag:'Armação com detalhe no topo', highlight:false});
+  }
+  if (destaque_macas > 65) {
+    recs.formatos.push({tag:'Oval sem aro (3 peças)', highlight:false});
+  }
+  if (alongamento > 60) {
+    recs.formatos.push({tag:'Oversized largo', highlight:true});
+    recs.formatos.push({tag:'Aviador', highlight:false});
+  }
+  if (alongamento < 35) {
+    recs.formatos.push({tag:'Oval alongado', highlight:true});
+    recs.formatos.push({tag:'Retangular', highlight:false});
+  }
+
+  // Evitar
+  if (angularidade > 60) recs.evitar.push('Quadrado', 'Retangular');
+  if (angularidade < 35) recs.evitar.push('Redondo', 'Circular');
+  if (predominancia_superior > 55) recs.evitar.push('Cat-eye muito marcado', 'Óculos com detalhe no topo');
+  if (afunilamento_queixo > 60) recs.evitar.push('Armações muito pesadas na parte inferior');
+
+  // Tendências
+  if (alongamento < 50 && angularidade < 50) recs.tendencias.push({tag:'Oval alongado (Miu Miu)', highlight:true});
+  if (angularidade > 50) recs.tendencias.push({tag:'Butterfly', highlight:false});
+  if (destaque_macas > 55) recs.tendencias.push({tag:'3 peças (rimless)', highlight:false});
+  recs.tendencias.push({tag:'Geométrico', highlight:false});
+
+  return recs;
+}
 
 let faceLandmarker = null;
 
 async function init() {
   try {
-    const fr = await FilesetResolver.forVisionTasks("https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/wasm");
+    const fr = await FilesetResolver.forVisionTasks(
+      "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/wasm");
     faceLandmarker = await FaceLandmarker.createFromOptions(fr, {
-      baseOptions: { modelAssetPath:"https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/1/face_landmarker.task", delegate:"GPU" },
-      outputFaceBlendshapes:false, runningMode:"IMAGE", numFaces:1
+      baseOptions: {
+        modelAssetPath: "https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/1/face_landmarker.task",
+        delegate: "GPU"
+      },
+      outputFaceBlendshapes: false, runningMode: "IMAGE", numFaces: 1
     });
-    document.getElementById('initMsg').style.display='none';
-    document.getElementById('ubox').style.display='block';
+    document.getElementById('initMsg').style.display = 'none';
+    document.getElementById('ubox').style.display = 'block';
   } catch(e) {
-    document.getElementById('initMsg').textContent='❌ Erro ao carregar. Verifique sua conexão e recarregue.';
+    document.getElementById('initMsg').textContent = '❌ Erro ao carregar. Verifique sua conexão e recarregue.';
     console.error(e);
   }
 }
 
-document.getElementById('ubox').addEventListener('click',()=>document.getElementById('fi').click());
-document.getElementById('fi').addEventListener('change',function(){
-  const f=this.files[0]; if(!f) return;
-  const r=new FileReader();
-  r.onload=e=>{const img=new Image(); img.onload=()=>runAnalysis(img); img.src=e.target.result;};
+document.getElementById('ubox').addEventListener('click', () => document.getElementById('fi').click());
+document.getElementById('fi').addEventListener('change', function() {
+  const f = this.files[0]; if(!f) return;
+  const r = new FileReader();
+  r.onload = e => { const img = new Image(); img.onload = () => runAnalysis(img); img.src = e.target.result; };
   r.readAsDataURL(f);
 });
-document.getElementById('btnNew').addEventListener('click',()=>{
-  ['canvasWrap','resultBox','warnBox','errBox'].forEach(id=>document.getElementById(id).style.display='none');
-  document.getElementById('brow').style.display='none';
-  document.getElementById('ubox').style.display='block';
-  document.getElementById('fi').value='';
+document.getElementById('btnNew').addEventListener('click', () => {
+  ['canvasWrap','resultBox','warnBox','errBox'].forEach(id => document.getElementById(id).style.display='none');
+  document.getElementById('brow').style.display = 'none';
+  document.getElementById('ubox').style.display = 'block';
+  document.getElementById('fi').value = '';
 });
 
 async function runAnalysis(img) {
-  document.getElementById('ubox').style.display='none';
-  document.getElementById('loading').style.display='block';
-  document.getElementById('errBox').style.display='none';
-  document.getElementById('warnBox').style.display='none';
-  const msgs=['Detectando 478 pontos faciais…','Medindo regiões do rosto…','Consultando Gemini Vision…','Finalizando análise…'];
-  let mi=0; const iv=setInterval(()=>{document.getElementById('lmsg').textContent=msgs[mi++%msgs.length];},1400);
+  document.getElementById('ubox').style.display = 'none';
+  document.getElementById('loading').style.display = 'block';
+  document.getElementById('errBox').style.display = 'none';
+  document.getElementById('warnBox').style.display = 'none';
+  const msgs = ['Detectando 478 pontos faciais…','Medindo regiões do rosto…','Consultando Gemini Vision…','Gerando perfil facial…'];
+  let mi = 0;
+  const iv = setInterval(() => { document.getElementById('lmsg').textContent = msgs[mi++ % msgs.length]; }, 1400);
   try {
-    const off=document.createElement('canvas');
-    const scale=Math.min(1,800/img.naturalWidth);
-    off.width=img.naturalWidth*scale; off.height=img.naturalHeight*scale;
-    off.getContext('2d').drawImage(img,0,0,off.width,off.height);
-    const result=await faceLandmarker.detect(off);
-    if(!result.faceLandmarks||!result.faceLandmarks.length){
-      clearInterval(iv); document.getElementById('loading').style.display='none';
+    const off = document.createElement('canvas');
+    const scale = Math.min(1, 800 / img.naturalWidth);
+    off.width = img.naturalWidth * scale;
+    off.height = img.naturalHeight * scale;
+    off.getContext('2d').drawImage(img, 0, 0, off.width, off.height);
+    const result = await faceLandmarker.detect(off);
+    if (!result.faceLandmarks || !result.faceLandmarks.length) {
+      clearInterval(iv); document.getElementById('loading').style.display = 'none';
       showError('Nenhum rosto detectado. Use uma foto de frente com rosto bem visível.'); return;
     }
-    const lms=result.faceLandmarks[0];
-    if(Math.abs(lms[454].x-lms[234].x)*Math.abs(lms[152].y-lms[10].y)<0.04)
-      document.getElementById('warnBox').style.display='block';
+    const lms = result.faceLandmarks[0];
+    if (Math.abs(lms[454].x-lms[234].x) * Math.abs(lms[152].y-lms[10].y) < 0.04)
+      document.getElementById('warnBox').style.display = 'block';
 
-    // Medir e desenhar
-    const {metrics, canvasB64} = measureAndDraw(img, lms, off.width, off.height, scale);
+    const { metrics, canvasB64 } = measureAndDraw(img, lms, off.width, off.height, scale);
 
-    // Chamar API do Vercel
     const apiResp = await fetch('/api/analyze', {
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ imageBase64: canvasB64, metrics })
     });
 
     clearInterval(iv);
-    document.getElementById('loading').style.display='none';
+    document.getElementById('loading').style.display = 'none';
 
-    if(!apiResp.ok) {
-      const err=await apiResp.json();
-      showError('Erro: ' + JSON.stringify(err)); return;
+    if (!apiResp.ok) {
+      const err = await apiResp.json();
+      showError('Erro na análise: ' + JSON.stringify(err)); return;
     }
 
     const aiResult = await apiResp.json();
-    // Redesenhar com cor do formato identificado
-    redrawContour(img, lms, off.width, off.height, scale, aiResult.formato);
+    redrawWithTopFormat(img, lms, off.width, off.height, scale, aiResult.scores);
     renderResult(aiResult, metrics);
+
   } catch(e) {
     clearInterval(iv);
-    document.getElementById('loading').style.display='none';
-    console.error(e); showError('Erro: ' + e.message + ' | ' + e.stack);
+    document.getElementById('loading').style.display = 'none';
+    console.error(e);
+    showError('Erro: ' + e.message);
   }
 }
 
-function dst(a,b){return Math.sqrt((a.x-b.x)**2+(a.y-b.y)**2);}
-function angleAt(A,B,C){
-  const BA={x:A.x-B.x,y:A.y-B.y},BC={x:C.x-B.x,y:C.y-B.y};
+function dst(a,b) { return Math.sqrt((a.x-b.x)**2+(a.y-b.y)**2); }
+function angleAt(A,B,C) {
+  const BA={x:A.x-B.x,y:A.y-B.y}, BC={x:C.x-B.x,y:C.y-B.y};
   const dot=BA.x*BC.x+BA.y*BC.y;
   const mag=Math.sqrt(BA.x**2+BA.y**2)*Math.sqrt(BC.x**2+BC.y**2);
   return mag===0?180:Math.acos(Math.max(-1,Math.min(1,dot/mag)))*180/Math.PI;
 }
-function meanCurv(pts){
+function meanCurv(pts) {
   let s=0; for(let i=1;i<pts.length-1;i++) s+=angleAt(pts[i-1],pts[i],pts[i+1]);
   return s/(pts.length-2);
 }
-function ptLineDist(P,A,B){
+function ptLineDist(P,A,B) {
   const num=Math.abs((B.y-A.y)*P.x-(B.x-A.x)*P.y+B.x*A.y-B.y*A.x);
   const den=Math.sqrt((B.y-A.y)**2+(B.x-A.x)**2);
   return den===0?0:num/den;
 }
 
-function measureAndDraw(img,lms,W,H,scale) {
-  const cw=document.getElementById('canvasWrap');
-  const cv=document.getElementById('cv');
-  cw.style.display='block';
-  const ds2=Math.min(1,(cw.offsetWidth||580)/img.naturalWidth);
-  cv.width=img.naturalWidth*ds2; cv.height=img.naturalHeight*ds2;
-  const ctx=cv.getContext('2d');
-  ctx.drawImage(img,0,0,cv.width,cv.height);
+function measureAndDraw(img, lms, W, H, scale) {
+  const cw = document.getElementById('canvasWrap');
+  const cv = document.getElementById('cv');
+  cw.style.display = 'block';
+  const ds2 = Math.min(1, (cw.offsetWidth||580) / img.naturalWidth);
+  cv.width = img.naturalWidth * ds2;
+  cv.height = img.naturalHeight * ds2;
+  const ctx = cv.getContext('2d');
+  ctx.drawImage(img, 0, 0, cv.width, cv.height);
 
-  const ds=ds2/scale;
-  const pt =i=>({x:lms[i].x*W*ds, y:lms[i].y*H*ds});
-  const ptN=i=>({x:lms[i].x,      y:lms[i].y});
+  const ds = ds2 / scale;
+  const pt  = i => ({x:lms[i].x*W*ds, y:lms[i].y*H*ds});
+  const ptN = i => ({x:lms[i].x,      y:lms[i].y});
 
-  // Medições corrigidas
-  const faceH  = dst(ptN(10),  ptN(152));
-  const foreW  = dst(ptN(54),  ptN(284));  // hairline lateral corrigida
-  const tempW  = dst(ptN(162), ptN(389));  // têmporas reais (acima das maçãs)
-  const cheekW = dst(ptN(234), ptN(454));  // maçãs
-  const jawHiW = dst(ptN(172), ptN(397));  // mandíbula alta
-  const jawMiW = dst(ptN(58),  ptN(288));  // mandíbula média
-  const chinW  = dst(ptN(136), ptN(365));  // queixo (pré-queixo lateral)
-  const maxW   = Math.max(tempW,cheekW,foreW,jawHiW);
+  const faceH  = dst(ptN(10), ptN(152));
+  const foreW  = dst(ptN(54), ptN(284));
+  const tempW  = dst(ptN(162), ptN(389));
+  const cheekW = dst(ptN(234), ptN(454));
+  const jawHiW = dst(ptN(172), ptN(397));
+  const jawMiW = dst(ptN(58), ptN(288));
+  const chinW  = dst(ptN(136), ptN(365));
+  const maxW   = Math.max(tempW, cheekW, foreW, jawHiW);
 
-  const ratioHL   = faceH/maxW;
-  const tempR     = tempW/maxW;
-  const foreR     = foreW/maxW;
-  const cheekR    = cheekW/maxW;
-  const jawHiR    = jawHiW/maxW;
-  const jawMiR    = jawMiW/maxW;
-  const chinR     = chinW/maxW;
-  const superW    = Math.max(foreR,tempR);
+  const jawCL = [ptN(234),ptN(172),ptN(58),ptN(136),ptN(152)];
+  const jawCR = [ptN(454),ptN(397),ptN(288),ptN(365),ptN(152)];
+  const jawCurv = (meanCurv(jawCL)+meanCurv(jawCR))/2;
+  const jawUniform = Math.min(jawHiW,jawMiW)/Math.max(jawHiW,jawMiW);
+  const chinPt = ptLineDist(ptN(152),ptN(136),ptN(365))/(chinW*0.5);
+  const jawHtL = Math.abs(ptN(136).y-ptN(172).y);
+  const jawHtR = Math.abs(ptN(365).y-ptN(397).y);
+  const jawHt  = ((jawHtL+jawHtR)/2)/faceH;
+  const taperForeJaw = (foreW-jawHiW)/foreW;
+  const taperJawChin = (jawHiW-chinW)/jawHiW;
 
-  const jawCL=[ptN(234),ptN(172),ptN(58),ptN(136),ptN(152)];
-  const jawCR=[ptN(454),ptN(397),ptN(288),ptN(365),ptN(152)];
-  const jawCurv=(meanCurv(jawCL)+meanCurv(jawCR))/2;
-  const jawUniform=Math.min(jawHiW,jawMiW)/Math.max(jawHiW,jawMiW);
-  const chinPt=ptLineDist(ptN(152),ptN(136),ptN(365))/(chinW*0.5);
-  const jawHtL=Math.abs(ptN(136).y-ptN(172).y);
-  const jawHtR=Math.abs(ptN(365).y-ptN(397).y);
-  const jawHt=((jawHtL+jawHtR)/2)/faceH;
-  const taperForeJaw=(foreW-jawHiW)/foreW;
-  const taperJawChin=(jawHiW-chinW)/jawHiW;
+  const metrics = {
+    ratioHL: (faceH/maxW).toFixed(3),
+    tempR: (tempW/maxW).toFixed(3), foreR: (foreW/maxW).toFixed(3),
+    cheekR: (cheekW/maxW).toFixed(3), jawHiR: (jawHiW/maxW).toFixed(3),
+    chinR: (chinW/maxW).toFixed(3), jawCurv: jawCurv.toFixed(1),
+    jawUniform: jawUniform.toFixed(3), chinPoint: chinPt.toFixed(3),
+    jawHt: jawHt.toFixed(3), taperForeJaw: taperForeJaw.toFixed(3),
+    taperJawChin: taperJawChin.toFixed(3)
+  };
 
-  const metrics={ratioHL,tempR,foreR,cheekR,jawHiR,jawMiR,chinR,superW,jawCurv:jawCurv.toFixed(1),jawUniform,chinPoint:chinPt.toFixed(3),jawHt,taperForeJaw,taperJawChin};
+  // Contorno neutro ciano
+  drawOvalContour(ctx, lms, W, H, ds, '#00e5ff', 'rgba(0,229,255,0.08)');
+  drawLines(ctx, pt);
 
-  // Contorno neutro (ciano) para enviar à IA
-  const raw=OVAL_IDX.map(i=>pt(i));
-  const n=raw.length;
-  let topIdx=0; raw.forEach((p,i)=>{if(p.y<raw[topIdx].y) topIdx=i;});
-  const pBL=pt(65),pBR=pt(295),pT=pt(10);
-  const lift=((pBL.y+pBR.y)/2-pT.y)*0.75;
-  const contour=raw.map((p,i)=>{
-    const d=Math.min(Math.abs(i-topIdx),Math.abs(i-topIdx+n),Math.abs(i-topIdx-n));
-    if(d<=8){const f=Math.pow(Math.cos((d/8)*(Math.PI/2)),1.5);return{x:p.x,y:p.y-lift*f};}
-    return{x:p.x,y:p.y};
-  });
-
-  drawContour(ctx,'#00e5ff','rgba(0,229,255,0.08)',contour);
-  drawMeasureLines(ctx,pt);
-
-  const canvasB64=cv.toDataURL('image/jpeg',0.85).split(',')[1];
-  return {metrics, canvasB64};
+  const canvasB64 = cv.toDataURL('image/jpeg', 0.85).split(',')[1];
+  return { metrics, canvasB64 };
 }
 
-function redrawContour(img,lms,W,H,scale,formato) {
-  const cw=document.getElementById('canvasWrap');
-  const cv=document.getElementById('cv');
-  const ds2=Math.min(1,(cw.offsetWidth||580)/img.naturalWidth);
-  const ctx=cv.getContext('2d');
-  ctx.drawImage(img,0,0,cv.width,cv.height);
-  const ds=ds2/scale;
-  const pt=i=>({x:lms[i].x*W*ds,y:lms[i].y*H*ds});
+function redrawWithTopFormat(img, lms, W, H, scale, scores) {
+  if (!scores) return;
+  const sorted = Object.entries(scores).sort((a,b)=>b[1]-a[1]);
+  const topKey = sorted[0][0];
+  const info = SHAPES[topKey] || SHAPES.oval;
 
-  const raw=OVAL_IDX.map(i=>pt(i));
-  const n=raw.length;
-  let topIdx=0; raw.forEach((p,i)=>{if(p.y<raw[topIdx].y) topIdx=i;});
-  const pBL=pt(65),pBR=pt(295),pT=pt(10);
-  const lift=((pBL.y+pBR.y)/2-pT.y)*0.75;
-  const contour=raw.map((p,i)=>{
-    const d=Math.min(Math.abs(i-topIdx),Math.abs(i-topIdx+n),Math.abs(i-topIdx-n));
-    if(d<=8){const f=Math.pow(Math.cos((d/8)*(Math.PI/2)),1.5);return{x:p.x,y:p.y-lift*f};}
-    return{x:p.x,y:p.y};
-  });
+  const cw = document.getElementById('canvasWrap');
+  const cv = document.getElementById('cv');
+  const ds2 = Math.min(1, (cw.offsetWidth||580)/img.naturalWidth);
+  const ctx = cv.getContext('2d');
+  ctx.drawImage(img, 0, 0, cv.width, cv.height);
 
-  const info=SHAPES[formato]||SHAPES['oval'];
-  drawContour(ctx, info.stroke, info.fill, contour);
-  drawMeasureLines(ctx, pt);
+  const ds = ds2/scale;
+  const pt = i => ({x:lms[i].x*W*ds, y:lms[i].y*H*ds});
+
+  drawOvalContour(ctx, lms, W, H, ds, info.stroke, info.fill);
+  drawLines(ctx, pt);
 
   [{i:10,l:'Topo',c:'#fff'},{i:152,l:'Queixo',c:'#fff'},
    {i:54,l:'Testa E',c:'#ffcc00'},{i:284,l:'Testa D',c:'#ffcc00'},
@@ -296,30 +354,40 @@ function redrawContour(img,lms,W,H,scale,formato) {
    {i:234,l:'Maçã E',c:'#ffe000'},{i:454,l:'Maçã D',c:'#ffe000'},
    {i:172,l:'Mand E',c:'#ff4488'},{i:397,l:'Mand D',c:'#ff4488'},
    {i:136,l:'Quix E',c:'#ffaacc'},{i:365,l:'Quix D',c:'#ffaacc'},
-  ].forEach(({i,l,c})=>{
-    const p=pt(i);
+  ].forEach(({i,l,c}) => {
+    const p = pt(i);
     ctx.fillStyle=c; ctx.beginPath(); ctx.arc(p.x,p.y,3.5,0,Math.PI*2); ctx.fill();
     ctx.strokeStyle='rgba(0,0,0,0.3)'; ctx.lineWidth=1; ctx.stroke();
     ctx.font='bold 9px system-ui';
-    const tw=ctx.measureText(l).width,lx=p.x-tw/2,ly=p.y-9;
+    const tw=ctx.measureText(l).width, lx=p.x-tw/2, ly=p.y-9;
     ctx.fillStyle='rgba(0,0,0,0.6)';
     ctx.beginPath(); ctx.roundRect(lx-2,ly-10,tw+4,13,3); ctx.fill();
     ctx.fillStyle='#fff'; ctx.fillText(l,lx,ly);
   });
 }
 
-function drawContour(ctx,stroke,fill,pts){
-  const n=pts.length;
-  ctx.beginPath();
-  ctx.moveTo((pts[0].x+pts[n-1].x)/2,(pts[0].y+pts[n-1].y)/2);
-  for(let i=0;i<n;i++){const c=pts[i],nx=pts[(i+1)%n]; ctx.quadraticCurveTo(c.x,c.y,(c.x+nx.x)/2,(c.y+nx.y)/2);}
-  ctx.closePath();
+function drawOvalContour(ctx, lms, W, H, ds, stroke, fill) {
+  const pt = i => ({x:lms[i].x*W*ds, y:lms[i].y*H*ds});
+  const pBL=pt(65), pBR=pt(295), pT=pt(10);
+  const raw = OVAL_IDX.map(i=>pt(i));
+  const n = raw.length;
+  let topIdx=0; raw.forEach((p,i)=>{if(p.y<raw[topIdx].y) topIdx=i;});
+  const lift = ((pBL.y+pBR.y)/2-pT.y)*0.75;
+  const contour = raw.map((p,i)=>{
+    const d=Math.min(Math.abs(i-topIdx),Math.abs(i-topIdx+n),Math.abs(i-topIdx-n));
+    if(d<=8){const f=Math.pow(Math.cos((d/8)*(Math.PI/2)),1.5);return{x:p.x,y:p.y-lift*f};}
+    return{x:p.x,y:p.y};
+  });
+  ctx.beginPath(); smooth(ctx,contour);
   ctx.fillStyle=fill; ctx.fill();
+  ctx.beginPath(); smooth(ctx,contour);
   ctx.strokeStyle=stroke; ctx.lineWidth=2.5;
   ctx.shadowColor=stroke; ctx.shadowBlur=6; ctx.stroke(); ctx.shadowBlur=0;
+  ctx.fillStyle=stroke+'bb';
+  contour.forEach(p=>{ctx.beginPath();ctx.arc(p.x,p.y,2,0,Math.PI*2);ctx.fill();});
 }
 
-function drawMeasureLines(ctx,pt){
+function drawLines(ctx, pt) {
   [[pt(54),pt(284),'rgba(255,204,0,0.9)','Testa'],
    [pt(162),pt(389),'rgba(136,204,255,0.9)','Têmporas'],
    [pt(234),pt(454),'rgba(255,220,0,0.9)','Maçãs'],
@@ -330,34 +398,31 @@ function drawMeasureLines(ctx,pt){
     ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
     ctx.setLineDash([]);
     ctx.font='bold 10px system-ui';
-    const tw=ctx.measureText(lbl).width,mx=(a.x+b.x)/2,my=(a.y+b.y)/2;
+    const tw=ctx.measureText(lbl).width, mx=(a.x+b.x)/2, my=(a.y+b.y)/2;
     ctx.fillStyle='rgba(0,0,0,0.6)';
     ctx.beginPath(); ctx.roundRect(mx-tw/2-3,my-12,tw+6,14,3); ctx.fill();
     ctx.fillStyle='#fff'; ctx.fillText(lbl,mx-tw/2,my);
   });
 }
 
-function pct(v){return(v*100).toFixed(0)+'%';}
+function pct(v) { return (parseFloat(v)*100).toFixed(0)+'%'; }
 
-function renderResult(ai,m){
-  const info=SHAPES[ai.formato]||SHAPES['oval'];
-  document.getElementById('rBadge').innerHTML=`<span style="color:${info.stroke}">${ai.label||info.label}</span>`;
-  const grp=document.getElementById('rGroup');
-  grp.textContent=info.group; grp.style.background=info.gc; grp.style.color=info.stroke;
-  document.getElementById('rConf').textContent=`Confiança: ${ai.confianca||'—'}`;
-  document.getElementById('rDesc').textContent=info.desc;
+function renderResult(ai, m) {
+  const scores  = ai.scores  || {};
+  const perfil  = ai.perfil  || {};
 
-  const regions=[
-    {l:'Têmporas', v:m.tempR,  c:'#88ccff'},
-    {l:'Testa',    v:m.foreR,  c:'#ffcc00'},
-    {l:'Maçãs',    v:m.cheekR, c:'#ffe000'},
-    {l:'Mandíbula',v:m.jawHiR, c:'#ff4488'},
-    {l:'Queixo',   v:m.chinR,  c:'#ffaacc'},
+  // Regiões
+  const regions = [
+    {l:'Têmporas', v:parseFloat(m.tempR),  c:'#88ccff'},
+    {l:'Testa',    v:parseFloat(m.foreR),  c:'#ffcc00'},
+    {l:'Maçãs',    v:parseFloat(m.cheekR), c:'#ffe000'},
+    {l:'Mandíbula',v:parseFloat(m.jawHiR), c:'#ff4488'},
+    {l:'Queixo',   v:parseFloat(m.chinR),  c:'#ffaacc'},
   ];
-  const maxR=Math.max(...regions.map(r=>r.v));
-  document.getElementById('rRegions').innerHTML=regions.map(({l,v,c})=>{
-    const isMax=Math.abs(v-maxR)<0.005;
-    return`<div class="reg-row">
+  const maxR = Math.max(...regions.map(r=>r.v));
+  document.getElementById('rRegions').innerHTML = regions.map(({l,v,c})=>{
+    const isMax = Math.abs(v-maxR)<0.005;
+    return `<div class="reg-row">
       <div class="reg-label" style="color:${c}">${l}${isMax?`<span class="dom-mark" style="background:${c}">MAX</span>`:''}
       </div>
       <div class="reg-bar-bg"><div class="reg-bar" style="width:${pct(v)};background:${c}"></div></div>
@@ -365,27 +430,75 @@ function renderResult(ai,m){
     </div>`;
   }).join('');
 
-  document.getElementById('rMetrics').innerHTML=[
-    {l:'Proporção (H/L)',       v:parseFloat(m.ratioHL).toFixed(2), s:m.ratioHL<1.18?'Curto':m.ratioHL<1.50?'Médio':'Longo'},
-    {l:'Curvatura mandíbula',   v:parseFloat(m.jawCurv).toFixed(0)+'°', s:m.jawCurv<128?'Angular':m.jawCurv<148?'Intermediário':'Suave'},
-    {l:'Uniformidade mandíb',   v:pct(m.jawUniform), s:m.jawUniform>0.87?'Alta':'Baixa'},
-    {l:'Pontualidade queixo',   v:parseFloat(m.chinPoint).toFixed(2), s:m.chinPoint>0.28?'Pontudo':'Arredondado'},
-    {l:'Taper testa→mandíb',    v:pct(m.taperForeJaw), s:m.taperForeJaw<0.05?'Nulo':m.taperForeJaw<0.12?'Leve':'Acentuado'},
-    {l:'Taper mandíb→queixo',   v:pct(m.taperJawChin), s:m.taperJawChin<0.12?'Pouco':m.taperJawChin<0.25?'Moderado':'Bastante'},
-  ].map(({l,v,s})=>`<div class="mc"><div class="ml">${l}</div><div class="mv">${v}</div><div class="ms">${s}</div></div>`).join('');
+  // Top 3 formatos
+  const sorted = Object.entries(scores).sort((a,b)=>b[1]-a[1]).slice(0,3);
+  const maxScore = sorted[0]?.[1] || 1;
+  document.getElementById('rTop3').innerHTML = sorted.map(([key,score],i)=>{
+    const info = SHAPES[key] || SHAPES.oval;
+    return `<div class="fmt-card ${i===0?'first':''}" style="background:${info.fill};color:${info.stroke}">
+      <div class="fmt-header">
+        <span class="fmt-name">${i===0?'✓ ':''}${info.label}</span>
+        <span class="fmt-score">${score}/100</span>
+      </div>
+      <div class="fmt-desc">${info.desc}</div>
+      <div class="fmt-bar-bg"><div class="fmt-bar" style="width:${score}%"></div></div>
+    </div>`;
+  }).join('');
 
-  document.getElementById('rJustif').textContent=ai.justificativa||'—';
-  document.getElementById('rDecisive').innerHTML='';
-  }
+  // Perfil facial
+  const perfilDefs = [
+    {key:'alongamento',           label:'Alongamento',           lo:'Curto',      hi:'Longo'},
+    {key:'angularidade',          label:'Angularidade',          lo:'Suave',      hi:'Angular'},
+    {key:'predominancia_superior',label:'Predomin. superior',    lo:'Equilibrado',hi:'Topo largo'},
+    {key:'predominancia_inferior',label:'Predomin. inferior',    lo:'Equilibrado',hi:'Base larga'},
+    {key:'destaque_macas',        label:'Destaque das maçãs',    lo:'Discreto',   hi:'Proeminente'},
+    {key:'afunilamento_queixo',   label:'Afunilamento do queixo',lo:'Reto/largo', hi:'Pontudo'},
+  ];
+  document.getElementById('rProfile').innerHTML = perfilDefs.map(({key,label,lo,hi})=>{
+    const val = perfil[key] || 0;
+    const desc = val < 35 ? lo : val > 65 ? hi : 'Moderado';
+    return `<div class="prof-item">
+      <div class="prof-label">${label}</div>
+      <div class="prof-bar-wrap">
+        <div class="prof-bar-bg"><div class="prof-bar-fill" style="width:${val}%"></div></div>
+        <div class="prof-val">${val}</div>
+      </div>
+      <div class="prof-desc">${desc}</div>
+    </div>`;
+  }).join('');
 
-  document.getElementById('resultBox').style.display='block';
-  document.getElementById('brow').style.display='flex';
+  // Recomendações
+  const recs = buildRecommendations(perfil, sorted.map(([key,score])=>({key,score})));
+  document.getElementById('rRec').innerHTML = `
+    <div class="rec-section">
+      <div class="rec-title">Formatos de armação recomendados</div>
+      <div class="rec-items">${recs.formatos.map(r=>`<span class="rec-tag ${r.highlight?'highlight':''}">${r.tag}</span>`).join('')}</div>
+    </div>
+    <div class="rec-section">
+      <div class="rec-title">Tendências que combinam</div>
+      <div class="rec-items">${recs.tendencias.map(r=>`<span class="rec-tag ${r.highlight?'highlight':''}">${r.tag}</span>`).join('')}</div>
+    </div>
+    ${recs.evitar.length?`<div class="rec-section">
+      <div class="rec-title">Evitar</div>
+      <div class="rec-items">${recs.evitar.map(r=>`<span class="rec-tag">${r}</span>`).join('')}</div>
+    </div>`:''}
+  `;
+
+  document.getElementById('resultBox').style.display = 'block';
+  document.getElementById('brow').style.display = 'flex';
 }
 
-function showError(msg){
-  document.getElementById('errBox').textContent=msg;
-  document.getElementById('errBox').style.display='block';
-  document.getElementById('ubox').style.display='block';
+function smooth(ctx,pts) {
+  const n=pts.length;
+  ctx.moveTo((pts[0].x+pts[n-1].x)/2,(pts[0].y+pts[n-1].y)/2);
+  for(let i=0;i<n;i++){const c=pts[i],nx=pts[(i+1)%n]; ctx.quadraticCurveTo(c.x,c.y,(c.x+nx.x)/2,(c.y+nx.y)/2);}
+  ctx.closePath();
+}
+
+function showError(msg) {
+  document.getElementById('errBox').textContent = msg;
+  document.getElementById('errBox').style.display = 'block';
+  document.getElementById('ubox').style.display = 'block';
 }
 
 init();
