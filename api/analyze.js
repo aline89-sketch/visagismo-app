@@ -43,9 +43,7 @@ Legenda perfil: al=alongamento an=angularidade ps=predominancia_superior pi=pred
      generationConfig: {
   temperature: 0,
   maxOutputTokens: 1024,
-  responseMimeType: "application/json",
-  thinkingConfig: {
-    thinkingBudget: 0
+  responseMimeType: "application/json"
 }
     };
 
