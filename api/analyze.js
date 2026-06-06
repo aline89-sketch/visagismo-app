@@ -11,31 +11,21 @@ export default async function handler(req, res) {
     const { imageBase64, metrics } = req.body;
     if (!imageBase64 || !metrics) return res.status(400).json({ error: 'Missing data' });
 
-    const pct = v => (parseFloat(v) * 100).toFixed(0) + '%';
+    const p = v => (parseFloat(v)*100).toFixed(0);
 
-    const prompt = `Você é especialista em visagismo. Analise o rosto na imagem com o contorno traçado.
+    // Prompt minimalista — resposta curta garante JSON completo
+    const prompt = `Especialista em visagismo. Analise o rosto na imagem.
 
-MÉTRICAS MEDIAPIPE:
-- Proporção H/L: ${metrics.ratioHL}
-- Têmporas: ${pct(metrics.tempR)} | Testa: ${pct(metrics.foreR)} | Maçãs: ${pct(metrics.cheekR)}
-- Mandíbula: ${pct(metrics.jawHiR)} | Queixo: ${pct(metrics.chinR)}
-- Curvatura mandíbula: ${metrics.jawCurv}° | Uniformidade: ${pct(metrics.jawUniform)}
-- Pontualidade queixo: ${metrics.chinPoint}
-- Afunilamento testa→mand: ${pct(metrics.taperForeJaw)} | mand→queixo: ${pct(metrics.taperJawChin)}
+MÉTRICAS:
+Proporção H/L:${metrics.ratioHL} Têmporas:${p(metrics.tempR)}% Testa:${p(metrics.foreR)}% Maçãs:${p(metrics.cheekR)}% Mandíbula:${p(metrics.jawHiR)}% Queixo:${p(metrics.chinR)}% CurvMand:${metrics.jawCurv}° Pontaqueixo:${metrics.chinPoint} TaperFJ:${p(metrics.taperForeJaw)}% TaperJC:${p(metrics.taperJawChin)}%
 
-TAREFA 1 - Pontue cada formato de 0 a 100 (soma não precisa ser 100):
-oval, redondo, quadrado, oblongo, coracao, triangulo_inv, diamante, triangular
+Pontuação 0-100 para cada formato e perfil 0-100 para cada característica.
 
-TAREFA 2 - Perfil facial contínuo (0-100):
-- alongamento: 0=muito curto, 100=muito longo
-- angularidade: 0=muito suave, 100=muito angular
-- predominancia_superior: 0=base larga, 100=topo muito largo
-- predominancia_inferior: 0=topo largo, 100=base muito larga
-- destaque_macas: 0=maçãs não se destacam, 100=maçãs muito proeminentes
-- afunilamento_queixo: 0=queixo largo/reto, 100=queixo muito pontudo
+Responda APENAS com este JSON (sem texto extra, sem markdown):
+{"s":{"ov":0,"re":0,"qu":0,"ob":0,"co":0,"ti":0,"di":0,"tr":0},"p":{"al":0,"an":0,"ps":0,"pi":0,"dm":0,"aq":0}}
 
-Retorne SOMENTE este JSON:
-{"scores":{"oval":0,"redondo":0,"quadrado":0,"oblongo":0,"coracao":0,"triangulo_inv":0,"diamante":0,"triangular":0},"perfil":{"alongamento":0,"angularidade":0,"predominancia_superior":0,"predominancia_inferior":0,"destaque_macas":0,"afunilamento_queixo":0}}`;
+Legenda scores: ov=oval re=redondo qu=quadrado ob=oblongo co=coracao ti=triangulo_inv di=diamante tr=triangular
+Legenda perfil: al=alongamento an=angularidade ps=predominancia_superior pi=predominancia_inferior dm=destaque_macas aq=afunilamento_queixo`;
 
     const apiKey = process.env.GEMINI_API_KEY;
     const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
@@ -47,7 +37,7 @@ Retorne SOMENTE este JSON:
           { inline_data: { mime_type: 'image/jpeg', data: imageBase64 } }
         ]
       }],
-      generationConfig: { temperature: 0.1, maxOutputTokens: 1024 }
+      generationConfig: { temperature: 0.1, maxOutputTokens: 256 }
     };
 
     const response = await fetch(url, {
@@ -63,10 +53,35 @@ Retorne SOMENTE este JSON:
 
     const data = await response.json();
     const raw = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
-    const clean = raw.replace(/```json|```/g, '').trim();
-    const jsonMatch = clean.match(/\{[\s\S]*\}/);
+
+    // Extrai JSON mesmo com texto ao redor
+    const jsonMatch = raw.match(/\{[\s\S]*\}/);
     if (!jsonMatch) return res.status(500).json({ error: 'No JSON in response', raw });
-    const result = JSON.parse(jsonMatch[0]);
+
+    const compact = JSON.parse(jsonMatch[0]);
+
+    // Expande as chaves compactas para o formato completo
+    const result = {
+      scores: {
+        oval:         compact.s?.ov || 0,
+        redondo:      compact.s?.re || 0,
+        quadrado:     compact.s?.qu || 0,
+        oblongo:      compact.s?.ob || 0,
+        coracao:      compact.s?.co || 0,
+        triangulo_inv:compact.s?.ti || 0,
+        diamante:     compact.s?.di || 0,
+        triangular:   compact.s?.tr || 0,
+      },
+      perfil: {
+        alongamento:            compact.p?.al || 0,
+        angularidade:           compact.p?.an || 0,
+        predominancia_superior: compact.p?.ps || 0,
+        predominancia_inferior: compact.p?.pi || 0,
+        destaque_macas:         compact.p?.dm || 0,
+        afunilamento_queixo:    compact.p?.aq || 0,
+      }
+    };
+
     return res.status(200).json(result);
 
   } catch(e) {
