@@ -13,48 +13,29 @@ export default async function handler(req, res) {
 
     const pct = v => (parseFloat(v) * 100).toFixed(0) + '%';
 
-    const prompt = `Você é um especialista em visagismo com profundo conhecimento em formatos de rosto.
-Analise a imagem do rosto com o contorno traçado e as métricas fornecidas.
+    const prompt = `Você é especialista em visagismo. Analise o rosto na imagem com o contorno traçado.
 
-FORMATOS POSSÍVEIS (apenas estes 8):
-- oval: proporções equilibradas, maçãs = ponto mais largo, testa levemente maior que mandíbula, curvas suaves
-- redondo: largura ≈ altura (ratio < 1.20), bochechas cheias, mandíbula curva e suave
-- quadrado: larguras similares em todas as regiões, mandíbula angular, queixo reto e curto
-- oblongo: rosto bem mais comprido que largo (ratio > 1.50), lados suaves e paralelos
-- coracao: testa e maçãs largas, queixo fino e PONTUDO, mandíbula afunila bastante
-- triangulo_inv: testa e têmporas largas, afunila progressivamente, queixo ARREDONDADO
-- diamante: maçãs MUITO proeminentes, testa E mandíbula visivelmente estreitas
-- triangular: mandíbula mais larga que a testa, rosto alarga para baixo
+MÉTRICAS MEDIAPIPE:
+- Proporção H/L: ${metrics.ratioHL}
+- Têmporas: ${pct(metrics.tempR)} | Testa: ${pct(metrics.foreR)} | Maçãs: ${pct(metrics.cheekR)}
+- Mandíbula: ${pct(metrics.jawHiR)} | Queixo: ${pct(metrics.chinR)}
+- Curvatura mandíbula: ${metrics.jawCurv}° | Uniformidade: ${pct(metrics.jawUniform)}
+- Pontualidade queixo: ${metrics.chinPoint}
+- Afunilamento testa→mand: ${pct(metrics.taperForeJaw)} | mand→queixo: ${pct(metrics.taperJawChin)}
 
-HIERARQUIA DE ANÁLISE:
-1. Qual região domina: superior (testa/têmporas), maçãs ou inferior (mandíbula)?
-2. Superior dominante → coração (queixo pontudo) ou triângulo invertido (queixo arredondado)
-3. Maçãs dominantes → diamante (testa E mandíbula estreitas) ou oval/redondo
-4. Inferior dominante → triangular
-5. Equilibrado → oval, redondo, quadrado ou oblongo
+TAREFA 1 - Pontue cada formato de 0 a 100 (soma não precisa ser 100):
+oval, redondo, quadrado, oblongo, coracao, triangulo_inv, diamante, triangular
 
-MÉTRICAS MEDIDAS (normalizadas pela largura máxima):
-- Proporção altura/largura: ${metrics.ratioHL}
-- Têmporas: ${pct(metrics.tempR)}
-- Testa (hairline): ${pct(metrics.foreR)}
-- Maçãs: ${pct(metrics.cheekR)}
-- Mandíbula: ${pct(metrics.jawHiR)}
-- Queixo: ${pct(metrics.chinR)}
-- Curvatura mandíbula: ${metrics.jawCurv}° (< 128° = angular/quadrado, > 148° = suave)
-- Uniformidade mandíbula: ${pct(metrics.jawUniform)} (> 87% = reta/quadrado)
-- Pontualidade queixo: ${metrics.chinPoint} (> 0.28 = pontudo/coração)
-- Afunilamento testa→mandíbula: ${pct(metrics.taperForeJaw)}
-- Afunilamento mandíbula→queixo: ${pct(metrics.taperJawChin)}
+TAREFA 2 - Perfil facial contínuo (0-100):
+- alongamento: 0=muito curto, 100=muito longo
+- angularidade: 0=muito suave, 100=muito angular
+- predominancia_superior: 0=base larga, 100=topo muito largo
+- predominancia_inferior: 0=topo largo, 100=base muito larga
+- destaque_macas: 0=maçãs não se destacam, 100=maçãs muito proeminentes
+- afunilamento_queixo: 0=queixo largo/reto, 100=queixo muito pontudo
 
-Seja MUITO conciso. A justificativa deve ter no máximo 100 caracteres.
-Retorne SOMENTE JSON válido sem markdown:
-{
-  "formato": "nome_em_snake_case",
-  "label": "Nome em português",
-  "confianca": "alta|media|baixa",
-  "regiao_dominante": "superior|macas|inferior|equilibrado",
-  "justificativa": "1 frase curta"
-}`;
+Retorne SOMENTE este JSON:
+{"scores":{"oval":0,"redondo":0,"quadrado":0,"oblongo":0,"coracao":0,"triangulo_inv":0,"diamante":0,"triangular":0},"perfil":{"alongamento":0,"angularidade":0,"predominancia_superior":0,"predominancia_inferior":0,"destaque_macas":0,"afunilamento_queixo":0}}`;
 
     const apiKey = process.env.GEMINI_API_KEY;
     const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
@@ -66,10 +47,7 @@ Retorne SOMENTE JSON válido sem markdown:
           { inline_data: { mime_type: 'image/jpeg', data: imageBase64 } }
         ]
       }],
-      generationConfig: {
-        temperature: 0.1,
-        maxOutputTokens: 2048
-      }
+      generationConfig: { temperature: 0.1, maxOutputTokens: 512 }
     };
 
     const response = await fetch(url, {
@@ -80,16 +58,15 @@ Retorne SOMENTE JSON válido sem markdown:
 
     if (!response.ok) {
       const err = await response.text();
-      return res.status(500).json({ error: 'Gemini API error', detail: err, status: response.status });
+      return res.status(500).json({ error: 'Gemini API error', detail: err });
     }
 
     const data = await response.json();
     const raw = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
-// Remove markdown, espaços e extrai apenas o JSON
-const clean = raw.replace(/```json|```/g, '').trim();
-const jsonMatch = clean.match(/\{[\s\S]*\}/);
-if (!jsonMatch) return res.status(500).json({ error: 'No JSON in response', raw });
-const result = JSON.parse(jsonMatch[0]);
+    const clean = raw.replace(/```json|```/g, '').trim();
+    const jsonMatch = clean.match(/\{[\s\S]*\}/);
+    if (!jsonMatch) return res.status(500).json({ error: 'No JSON in response', raw });
+    const result = JSON.parse(jsonMatch[0]);
     return res.status(200).json(result);
 
   } catch(e) {
