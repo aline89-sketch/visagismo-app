@@ -19,7 +19,11 @@ export default async function handler(req, res) {
 MÉTRICAS:
 Proporção H/L:${metrics.ratioHL} Têmporas:${p(metrics.tempR)}% Testa:${p(metrics.foreR)}% Maçãs:${p(metrics.cheekR)}% Mandíbula:${p(metrics.jawHiR)}% Queixo:${p(metrics.chinR)}% CurvMand:${metrics.jawCurv}° Pontaqueixo:${metrics.chinPoint} TaperFJ:${p(metrics.taperForeJaw)}% TaperJC:${p(metrics.taperJawChin)}%
 
-Pontuação 0-100 para cada formato e perfil 0-100 para cada característica.
+Preencha os campos do JSON com números inteiros de 0 a 100.
+Não explique.
+Não justifique.
+Não raciocine.
+Retorne apenas o JSON.
 
 Responda APENAS com este JSON (sem texto extra, sem markdown):
 {"s":{"ov":0,"re":0,"qu":0,"ob":0,"co":0,"ti":0,"di":0,"tr":0},"p":{"al":0,"an":0,"ps":0,"pi":0,"dm":0,"aq":0}}
