@@ -38,7 +38,6 @@ Legenda perfil: al=alongamento an=angularidade ps=predominancia_superior pi=pred
       contents: [{
         parts: [
           { text: prompt },
-          { inline_data: { mime_type: 'image/jpeg', data: imageBase64 } }
         ]
       }],
      generationConfig: {
