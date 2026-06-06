@@ -37,7 +37,7 @@ Legenda perfil: al=alongamento an=angularidade ps=predominancia_superior pi=pred
           { inline_data: { mime_type: 'image/jpeg', data: imageBase64 } }
         ]
       }],
-      generationConfig: { temperature: 0.1, maxOutputTokens: 256 }
+      generationConfig: { temperature: 0.1, maxOutputTokens: 1024 }
     };
 
     const response = await fetch(url, {
