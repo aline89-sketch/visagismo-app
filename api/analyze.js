@@ -52,7 +52,11 @@ Legenda perfil: al=alongamento an=angularidade ps=predominancia_superior pi=pred
     }
 
     const data = await response.json();
-    const raw = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+    const raw =
+  data.candidates?.[0]?.content?.parts
+    ?.map(p => p.text || '')
+    .join('') || '';
+    console.log(JSON.stringify(data, null, 2));
 
     // Extrai JSON mesmo com texto ao redor
     const jsonMatch = raw.match(/\{[\s\S]*\}/);
